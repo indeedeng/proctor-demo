@@ -1,0 +1,21 @@
+{
+    "tests" : {
+        // background color test
+        "bgcolortst": {
+            "buckets":{
+                "inactive":-1,
+                "altcolor1":0,
+                "altcolor2":1,
+                "altcolor3":2,
+                "altcolor4":3
+            },
+            "fallbackValue": -1,
+            "payload" : {
+                "type" : "stringValue"
+            }
+        }
+      },
+    "providedContext": {
+        "userAgent": "com.indeed.web.useragents.UserAgent"
+    }
+}
