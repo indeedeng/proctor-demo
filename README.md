@@ -2,7 +2,7 @@
 
 This project is a reference implementation and demonstration of [Proctor](https://github.com/indeedeng/proctor), a Java-based A/B testing framework by [Indeed](http://engineering.indeed.com). It is a simple Spring MVC webapp that uses Proctor to determine what background color to set for a web application.
 
-For more information, see the [Proctor documentation](https://indeedeng.github.io/proctor). The [Quick Start](http://indeedeng.github.io/proctor/docs/quick-start/) document is a good guide to understanding the code in this reference implementation.
+For more information, see the [Proctor documentation](http://indeedeng.github.io/proctor). The [Quick Start](http://indeedeng.github.io/proctor/docs/quick-start/) document is a good guide to understanding the code in this reference implementation.
 
 ## Demo Online
 
