@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.indeed</groupId>
+    <artifactId>proctor-demo</artifactId>
+    <packaging>war</packaging>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <properties>
+        <org.springframework.version>3.1.1.RELEASE</org.springframework.version>
+        <proctor.version>1.0.0</proctor.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>ossrh-releases</id>
+            <url>https://oss.sonatype.org/content/repositories/releases/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <repositories>
+        <repository>
+            <id>ossrh-releases</id>
+            <url>https://oss.sonatype.org/content/repositories/releases/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-servlet-api</artifactId>
+            <version>7.0.42</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency> <!-- otherwise pulled in by jsimone-webapp-runner -->
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jasper-el</artifactId>
+            <version>7.0.42</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency> <!-- otherwise pulled in by jsimone-webapp-runner -->
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jsp-api</artifactId>
+            <version>7.0.42</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency> <!-- otherwise pulled in by jsimone-webapp-runner -->
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-el-api</artifactId>
+            <version>7.0.42</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.jsimone</groupId>
+            <artifactId>webapp-runner</artifactId>
+            <version>7.0.34.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>15.0</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.16</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>nl.bitwalker</groupId>
+            <artifactId>UserAgentUtils</artifactId>
+            <version>1.2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.indeed</groupId>
+            <artifactId>proctor-tomcat-deps-provided</artifactId>
+            <version>${proctor.version}</version>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.indeed</groupId>
+            <artifactId>proctor-common</artifactId>
+            <version>${proctor.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.indeed</groupId>
+            <artifactId>proctor-consumer</artifactId>
+            <version>${proctor.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.indeed</groupId>
+            <artifactId>proctor-codegen</artifactId>
+            <version>${proctor.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.indeed</groupId>
+            <artifactId>proctor-maven-plugin</artifactId>
+            <version>${proctor.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.indeed</groupId>
+            <artifactId>util-core</artifactId>
+            <version>${proctor.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.indeed</groupId>
+            <artifactId>util-varexport</artifactId>
+            <version>${proctor.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+                <version>3.1</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.github.jsimone</groupId>
+                                    <artifactId>webapp-runner</artifactId>
+                                    <version>7.0.34.0</version>
+                                    <destFileName>webapp-runner.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+                <plugin>
+                    <groupId>com.indeed</groupId>
+                    <artifactId>proctor-maven-plugin</artifactId>
+                    <version>1.0.0</version>
+
+                    <executions>
+                        <execution>
+                            <id>proctor-generate</id>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+        </plugins>
+    </build>
+
+</project>
