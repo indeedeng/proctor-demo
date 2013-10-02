@@ -8,32 +8,21 @@
 
     <properties>
         <org.springframework.version>3.1.1.RELEASE</org.springframework.version>
+        <proctor.version>1.0.0</proctor.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <pluginRepositories>
         <pluginRepository>
-            <id>project.local</id>
-            <name>project</name>
-            <url>file://${project.basedir}/repo</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-                <checksumPolicy>ignore</checksumPolicy>
-            </snapshots>
+            <id>ossrh-releases</id>
+            <url>https://oss.sonatype.org/content/repositories/releases/</url>
         </pluginRepository>
     </pluginRepositories>
 
     <repositories>
         <repository>
-            <id>project.local</id>
-            <name>project</name>
-	    <url>file://${project.basedir}/repo</url>
-	    <snapshots>
-		    <enabled>true</enabled>
-		    <updatePolicy>always</updatePolicy>
-		    <checksumPolicy>ignore</checksumPolicy>
-	    </snapshots>
+            <id>ossrh-releases</id>
+            <url>https://oss.sonatype.org/content/repositories/releases/</url>
         </repository>
     </repositories>
 
@@ -120,44 +109,44 @@
         <dependency>
             <groupId>com.indeed</groupId>
             <artifactId>proctor-tomcat-deps-provided</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${proctor.version}</version>
             <type>pom</type>
         </dependency>
 
         <dependency>
             <groupId>com.indeed</groupId>
             <artifactId>proctor-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${proctor.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.indeed</groupId>
             <artifactId>proctor-consumer</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${proctor.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.indeed</groupId>
             <artifactId>proctor-codegen</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${proctor.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.indeed</groupId>
             <artifactId>proctor-maven-plugin</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${proctor.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.indeed</groupId>
             <artifactId>util-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${proctor.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.indeed</groupId>
             <artifactId>util-varexport</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${proctor.version}</version>
         </dependency>
 
     </dependencies>
@@ -199,20 +188,21 @@
                     </execution>
                 </executions>
             </plugin>
-                        <plugin>
-                                <groupId>com.indeed</groupId>
-                                <artifactId>proctor-maven-plugin</artifactId>
-                                <version>1.0-SNAPSHOT</version>
+                <plugin>
+                    <groupId>com.indeed</groupId>
+                    <artifactId>proctor-maven-plugin</artifactId>
+                    <version>1.0.0</version>
 
-                                <executions>
-                                        <execution>
-                                                <id>proctor-generate</id>
-                                                <goals>
-                                                        <goal>generate</goal>
-                                                </goals>
-                                        </execution>
-                                </executions>
-                        </plugin>
+                    <executions>
+                        <execution>
+                            <id>proctor-generate</id>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
         </plugins>
     </build>
+
 </project>
