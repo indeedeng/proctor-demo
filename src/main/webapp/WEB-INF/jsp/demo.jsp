@@ -36,9 +36,7 @@
     <div id="details">
         <p id="defn-ro">
             Proctor definition: <code><a target="_new" href="${definitionUrl}">${definitionUrl}</a></code>
-			<!-- disabled for live demo presentation
             <button class="btn btn-default btn-xs" onclick="return toggleEditDefinition()">Change</button>
-            -->
             <c:if test="${!defaultDefinition}">
                 <button onclick="$('#defn').val(''); $('#defn-rw').submit();" class="btn btn-default btn-xs">Restore Default</button>
             </c:if>
