@@ -44,3 +44,7 @@ Java Servlet Page view for the demo controller; renders the test behavior and so
 
 ### [UserAgent.java](https://github.com/indeedeng/proctor-demo/blob/master/src/main/java/com/indeed/web/useragents/UserAgent.java)
 A helper class based partially on bitwalker's UserAgentUtils that can be a useful context parameter for proctor.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/indeedeng/proctor-demo/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
