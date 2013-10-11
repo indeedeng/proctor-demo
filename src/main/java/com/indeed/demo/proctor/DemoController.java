@@ -1,6 +1,7 @@
 package com.indeed.demo.proctor;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -37,9 +39,37 @@ public class DemoController {
     private static final String USER_AGENT_HEADER = "User-Agent";
     private static final String TEST_DEFINITION_URL_COOKIE = "TestDefn";
     private static final String TEST_DEFINITION_URL_PARAM = "defn";
+    private static final String USER_AGENT_URL_PARAM = "agent";
+    private static final String USER_ID_PARAM = "uid";
 
     @Autowired
     protected DefinitionManager definitionManager;
+
+    private ProctorGroups getProctorGroups(
+            @Nonnull final HttpServletRequest request,
+            @Nonnull final HttpServletResponse response,
+            @Nonnull String userId,
+            @Nonnull String definitionUrl,
+            @Nullable UserAgent userAgent) {
+        final Proctor proctor = definitionManager.load(definitionUrl, false);
+        final ProctorGroupsManager groupsManager = new ProctorGroupsManager(Suppliers.ofInstance(proctor));
+        final Identifiers identifiers = new Identifiers(TestType.USER, userId);
+        final boolean allowForceGroups = true;
+        final ProctorResult result = groupsManager.determineBuckets(
+                request, response, identifiers, allowForceGroups, userAgent);
+        final ProctorGroups groups = new ProctorGroups(result);
+        return groups;
+    }
+
+    private String groupsToJson(@Nonnull final ProctorGroups groups) {
+        String groupsJson = "";
+        try {
+            groupsJson = new ObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(groups);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return groupsJson;
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView handle(@Nonnull final HttpServletRequest request,
@@ -61,26 +91,40 @@ public class DemoController {
         } else {
             definitionUrl = DefinitionManager.DEFAULT_DEFINITION;
         }
-        final Proctor proctor = definitionManager.load(definitionUrl, false);
-        final ProctorGroupsManager groupsManager = new ProctorGroupsManager(Suppliers.ofInstance(proctor));
-        final Identifiers identifiers = new Identifiers(TestType.USER, userId);
         final UserAgent userAgent = UserAgent.parseUserAgentStringSafely(userAgentHeader);
-        final boolean allowForceGroups = true;
-        final ProctorResult result = groupsManager.determineBuckets(
-                request, response, identifiers, allowForceGroups, userAgent);
-        final ProctorGroups groups = new ProctorGroups(result);
-        String groupsJson = "";
-        try {
-            groupsJson = new ObjectMapper().writeValueAsString(groups);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        final ProctorGroups groups = getProctorGroups(request, response, userId, definitionUrl, userAgent);
         return new ModelAndView("demo", ImmutableMap.of(
                 "definitionUrl", definitionUrl,
                 "defaultDefinition", definitionUrl.equals(DefinitionManager.DEFAULT_DEFINITION),
                 "userId", userId,
                 "groups", groups,
-                "groupsJson", groupsJson));
+                "groupsJson", groupsToJson(groups)));
+
+    }
+
+    @RequestMapping(value = "/rpc", method = RequestMethod.GET)
+    @ResponseBody
+    public void getGroupJson(@Nonnull final HttpServletRequest request,
+            @Nonnull final HttpServletResponse response,
+            @Nonnull @RequestParam(required = true, value = USER_ID_PARAM) String userId,
+            @Nonnull @RequestParam(required = true, value = USER_AGENT_URL_PARAM) String userAgentParam,
+            @Nullable @RequestParam(required = false, value = TEST_DEFINITION_URL_PARAM) String testDefnUrlParam) {
+        final String definitionUrl;
+        if (!Strings.isNullOrEmpty(testDefnUrlParam)) {
+            definitionUrl = testDefnUrlParam;
+        } else {
+            definitionUrl = DefinitionManager.DEFAULT_DEFINITION;
+        }
+        final UserAgent userAgent = UserAgent.parseUserAgentStringSafely(userAgentParam);
+        final ProctorGroups groups = getProctorGroups(request, response, userId, definitionUrl, userAgent);
+        response.setContentType("application/json");
+        try {
+            final PrintWriter out = response.getWriter();
+            out.write(groupsToJson(groups));
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
