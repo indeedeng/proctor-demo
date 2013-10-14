@@ -22,6 +22,36 @@ The demo is running on heroku: [http://indeedeng-hello-proctor.herokuapp.com](ht
 
 1. Basing color on Android vs. iOS user agent instead of random allocation: [link](http://indeedeng-hello-proctor.herokuapp.com/?defn=https%3A%2F%2Fgist.github.com%2Fyouknowjack%2F6718801%2Fraw). If you're not on Android or iOS you won't see a background color.
 
+#### Web-Based Remote Service API
+
+An additional endpoint `/rpc` is provided in this implementation as an example of how you might implement group selection as a remote service. To use this endpoint, you must provide as least the `uid` (user ID) and `agent` (user agent) query parameters. It does not use any cookies or HTTP headers directly. It supports these parameters:
+<table>
+<tr>
+<td>Parameter</td>
+<td>Description</td>
+<td>Required?</td>
+<td>Example</td>
+</tr>
+<tr>
+<td>uid</td>
+<td>User ID for USER-based tests (can be any string)</td>
+<td>Yes</td>
+<td>8ac65ba448be45afb86706e8cab979cf</td>
+</tr>
+<tr>
+<td>agent</td>
+<td>User Agent (equivalent to User-Agent HTTP header)</td>
+<td>Yes (may be blank)</td>
+<td>Mozilla/5.0</td>
+</tr>
+<tr>
+<td>defn</td>
+<td>Definition URL</td>
+<td>No (uses default if not provided)</td>
+<td>https://gist.github.com/youknowjack/6549712/raw</td>
+</tr>
+</table>
+
 ## Building and Running Demo Locally
 
 1. `mvn clean package && java -jar target/dependency/webapp-runner.jar target/*.war`
