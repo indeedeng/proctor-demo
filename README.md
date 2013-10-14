@@ -67,7 +67,7 @@ The JSON specification that is enumerates the test and its buckets. This is used
 Helper component that manages loading and caching the test matrix from a definition file at a remote URL.
 
 ### [DemoController.java](https://github.com/indeedeng/proctor-demo/blob/master/src/main/java/com/indeed/demo/proctor/DemoController.java)
-Spring controller that handles assigning a UUID cookie to identify the user and calling into proctor to get the groups for the current user.
+Spring controller that handles assigning a UUID cookie to identify the user and calling into proctor to get the groups for the current user. Also provides `/rpc` service endpoint support.
 
 ### [demo.jsp](https://github.com/indeedeng/proctor-demo/blob/master/src/main/webapp/WEB-INF/jsp/demo.jsp)
 Java Servlet Page view for the demo controller; renders the test behavior and some controls to interact with the demo.
