@@ -9,6 +9,7 @@
     <properties>
         <org.springframework.version>3.1.1.RELEASE</org.springframework.version>
         <proctor.version>1.0.0</proctor.version>
+        <util.version>1.0.0</util.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -142,13 +143,13 @@
         <dependency>
             <groupId>com.indeed</groupId>
             <artifactId>util-core</artifactId>
-            <version>${proctor.version}</version>
+            <version>${util.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.indeed</groupId>
             <artifactId>util-varexport</artifactId>
-            <version>${proctor.version}</version>
+            <version>${util.version}</version>
         </dependency>
 
     </dependencies>
