@@ -21,7 +21,7 @@ public class DefinitionManager {
     private static final Logger logger = Logger.getLogger(DefinitionManager.class);
 
     private static final String DEFAULT_SPEC = "/com/indeed/demo/ProctorGroups.json";
-    public static final String DEFAULT_DEFINITION = "https://goo.gl/WCWBRJ";
+    public static final String DEFAULT_DEFINITION = "http://go.indeed.com/proctor-demo.json";
 
     private Map<String, Proctor> proctorCache = Maps.newHashMap();
 
