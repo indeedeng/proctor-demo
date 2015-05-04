@@ -20,7 +20,8 @@ import com.google.common.collect.ImmutableMap;
 
 import com.indeed.proctor.consumer.ProctorConsumerUtils;
 import com.indeed.web.useragents.UserAgent;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -62,9 +63,11 @@ public class DemoController {
     }
 
     private String groupsToJson(@Nonnull final ProctorGroups groups) {
-        String groupsJson = "";
+        String groupsJson = "{}";
         try {
-            groupsJson = new ObjectMapper().defaultPrettyPrintingWriter().writeValueAsString(groups);
+            final ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+            groupsJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(groups);
         } catch (IOException e) {
             e.printStackTrace();
         }
