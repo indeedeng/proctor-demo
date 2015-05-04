@@ -48,7 +48,7 @@ An additional endpoint `/rpc` is provided in this implementation as an example o
 <td>defn</td>
 <td>Definition URL</td>
 <td>No (uses default if not provided)</td>
-<td>https://gist.github.com/youknowjack/6549712/raw</td>
+<td>https://raw.githubusercontent.com/indeedeng/proctor-demo/master/proctor-example.json</td>
 </tr>
 </table>
 
