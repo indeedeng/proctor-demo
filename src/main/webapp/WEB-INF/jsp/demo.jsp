@@ -54,6 +54,7 @@
 <c:if test="${not empty groups.bgcolortstPayload}">
         <p>The test group background color is: <code>${groups.bgcolortstPayload}</code></p>
 </c:if>
+        <p id="allocations"></p>
         <p><button type="button" class="btn btn-default btn-xs" id="hideDetails" onclick="toggleDetails()">
             <span class="glyphicon glyphicon-chevron-up"></span>
             hide details
@@ -93,6 +94,32 @@
         }
     }
 
+    function showAllocations() {
+        var allocations = groupsJson['proctorResult']['testDefinitions']['bgcolortst']['allocations'];
+        var buckets = groupsJson['proctorResult']['testDefinitions']['bgcolortst']['buckets'];
+        var bucketMap = {};
+        for (var b = 0; b < buckets.length; b++) {
+            bucketMap[buckets[b].value] = buckets[b];
+        }
+        var output = [];
+        for (var a = 0; a < allocations.length; a++) {
+            var ranges = allocations[a]['ranges'];
+            var rule = allocations[a]['rule'];
+            var ruleName = rule != null ? rule : 'Default Rule';
+            var rangeText = [];
+            for (var r = 0; r < ranges.length; r++) {
+                var bucket = ranges[r]['bucketValue'];
+                var length = ranges[r]['length']*100;
+                var bucketName = bucketMap[bucket]['name'];
+                var bucketDesc = bucketMap[bucket]['description'];
+                rangeText.push(length + "%: " + bucketName + (bucketDesc != "" ? " (" + bucketDesc + ")" : ""));
+            }
+            output.push("<div>" + ruleName + "<ul><li>" + rangeText.join("</li><li>") + "</li></ul></div>");
+        }
+        var outputHtml = output.join("");
+        $("#allocations").html(outputHtml);
+    }
+
     $(document).ready(function() {
         if (window.location.search == '?details=1') {
             window.location.href = "/#details";
@@ -105,6 +132,7 @@
             $("#showDetails").hide();
             $("#details").show();
         }
+        showAllocations();
         $('.container').show();
 
 		if (window.location.pathname.indexOf('/reload') < 0) {
