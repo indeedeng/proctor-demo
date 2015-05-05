@@ -1,6 +1,8 @@
 package com.indeed.demo.proctor;
 
 import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.UUID;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +26,18 @@ public class DefinitionManager {
     public static final String DEFAULT_DEFINITION = "http://opensource.indeedeng.io/proctor/demo.json";
 
     private Map<String, Proctor> proctorCache = Maps.newHashMap();
+
+    public DefinitionManager() {
+        try {
+            final URL u = new URL(DEFAULT_DEFINITION);
+            final URLConnection uc = u.openConnection();
+            uc.setDefaultUseCaches(false);
+            System.out.println("Set default use of caches to " + uc.getDefaultUseCaches());
+        } catch (Exception e) {
+            System.err.println("Failed to disable caching");
+            e.printStackTrace(System.err);
+        }
+    }
 
     public Proctor load(String definitionUrl, boolean forceReload) {
         Proctor proctor = proctorCache.get(definitionUrl);
