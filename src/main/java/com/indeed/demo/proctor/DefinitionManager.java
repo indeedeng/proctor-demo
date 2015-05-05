@@ -28,6 +28,7 @@ public class DefinitionManager {
     public Proctor load(String definitionUrl, boolean forceReload) {
         Proctor proctor = proctorCache.get(definitionUrl);
         if (proctor != null && !forceReload) {
+            System.out.println("reusing cached " + definitionUrl);
             return proctor;
         }
         try {
@@ -35,6 +36,7 @@ public class DefinitionManager {
             ProctorSpecification spec = ProctorUtils.readSpecification(DefinitionManager.class.getResourceAsStream(DEFAULT_SPEC));
             UrlProctorLoader loader = new UrlProctorLoader(spec, definitionUrl);
             proctor = loader.doLoad();
+            System.out.println("loaded definition from " + definitionUrl);
             proctorCache.put(definitionUrl, proctor);
         } catch (Throwable t) {
             logger.error("Failed to load test spec/definition", t);
