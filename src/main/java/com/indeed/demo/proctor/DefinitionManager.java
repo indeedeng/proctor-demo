@@ -6,6 +6,7 @@ import java.net.URLConnection;
 import java.util.UUID;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import com.google.common.collect.Maps;
 import com.indeed.demo.ProctorGroups;
@@ -26,6 +27,7 @@ public class DefinitionManager {
     public static final String DEFAULT_DEFINITION = "http://opensource.indeedeng.io/proctor/demo.json";
 
     private Map<String, Proctor> proctorCache = Maps.newHashMap();
+    private Random random = new Random();
 
     public DefinitionManager() {
         try {
@@ -48,7 +50,7 @@ public class DefinitionManager {
         try {
             HttpURLConnection.setFollowRedirects(true); // for demo purposes, allow Java to follow redirects
             ProctorSpecification spec = ProctorUtils.readSpecification(DefinitionManager.class.getResourceAsStream(DEFAULT_SPEC));
-            UrlProctorLoader loader = new UrlProctorLoader(spec, definitionUrl);
+            UrlProctorLoader loader = new UrlProctorLoader(spec, definitionUrl + "?r=" + random.nextInt());
             proctor = loader.doLoad();
             System.out.println("loaded definition from " + definitionUrl);
             proctorCache.put(definitionUrl, proctor);
