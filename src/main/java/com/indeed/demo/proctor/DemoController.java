@@ -168,7 +168,7 @@ public class DemoController {
                 @Nullable @CookieValue(required = false, value = USER_ID_COOKIE) String userId,
                 @Nullable @RequestHeader(required = false, value = USER_AGENT_HEADER) String userAgentHeader,
                 @Nullable @CookieValue(required = false, value = TEST_DEFINITION_URL_COOKIE) String testDefnUrlCookie) {
-        final String definitionUrl = testDefnUrlCookie != null ? testDefnUrlCookie : DefinitionManager.DEFAULT_DEFINITION;
+        final String definitionUrl = testDefnUrlCookie != null && !"".equals(testDefnUrlCookie) ? testDefnUrlCookie : DefinitionManager.DEFAULT_DEFINITION;
         definitionManager.load(definitionUrl, true);
         return handle(request, response, userId, userAgentHeader, testDefnUrlCookie, null);
     }
