@@ -1,5 +1,7 @@
 # Proctor Demo and Reference Implementation
 
+![Lifecycle](https://img.shields.io/osslifecycle/indeedeng/utilproctor-demo.svg)
+
 This project is a reference implementation and demonstration of [Proctor](https://github.com/indeedeng/proctor), a Java-based A/B testing framework by [Indeed](http://engineering.indeed.com). It is a simple Spring MVC webapp that uses Proctor to determine what background color to set for a web application.
 
 For more information, see the [Proctor documentation](http://indeedeng.github.io/proctor). The [Quick Start](http://indeedeng.github.io/proctor/docs/quick-start/) document is a good guide to understanding the code in this reference implementation.
@@ -75,6 +77,9 @@ Java Servlet Page view for the demo controller; renders the test behavior and so
 ### [UserAgent.java](https://github.com/indeedeng/proctor-demo/blob/master/src/main/java/com/indeed/web/useragents/UserAgent.java)
 A helper class based partially on bitwalker's UserAgentUtils that can be a useful context parameter for proctor.
 
+# Code of Conduct
+This project is governed by the [Contributor Covenant v 1.4.1](CODE_OF_CONDUCT.md)
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/indeedeng/proctor-demo/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+# License
 
+[Apache License Version 2.0](https://github.com/indeedeng/proctor-demo/blob/master/LICENSE)
