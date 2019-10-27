@@ -1,0 +1,79 @@
+{
+    "tests" : {
+    "bgcolortst" : {
+      "version" : 1,
+      "description" : "background color test",
+      "constants" : {
+      },
+      "rule" : null,
+      "salt" : "bgcolortst",
+      "buckets" : [ {
+        "name" : "inactive",
+        "value" : -1,
+        "description" : "",
+        "payload" : {
+            "map" : {
+                "bgcolor" : "",
+                "bucketNameFontSizePercentage" : 0
+            }
+        }
+      }, {
+        "name" : "altColor1",
+        "value" : 0,
+        "description" : "indeed orange",
+        "payload" : {
+            "map" : {
+                "bgcolor" : "#ff6600",
+                "bucketNameFontSizePercentage" : 120.0
+            }
+        }
+      }, {
+        "name" : "altColor2",
+        "value" : 1,
+        "description" : "magenta",
+        "payload" : {
+            "map" : {
+                "bgcolor" : "#CD29C0",
+                "bucketNameFontSizePercentage" : 120.0
+            }
+        }
+      }, {
+        "name" : "altColor3",
+        "value" : 2,
+        "description" : "indeed blue",
+        "payload" : {
+            "map" : {
+                "bgcolor" : "#2164f3",
+                "bucketNameFontSizePercentage" : 120.0
+            }
+        }
+      }, {
+        "name" : "altColor4",
+        "value" : 3,
+        "description" : "green",
+        "payload" : {
+            "map" : {
+                "bgcolor" : "#008040",
+                "bucketNameFontSizePercentage" : 120.0
+            }
+        }
+      }],
+      "allocations" : [ {
+        "rule" : null,
+        "ranges" : [ {
+          "length" : 0.50,
+          "bucketValue" : 0
+        }, {
+          "length" : 0.50,
+          "bucketValue" : 2
+        } ]
+      } ],
+      "testType" : "USER"
+    }
+  },
+  "audit" : {
+        "version" : 1,
+        "updatedBy" : "jack",
+        "updated" : 1379048400000
+  }
+}
