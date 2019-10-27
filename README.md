@@ -50,7 +50,7 @@ An additional endpoint `/rpc` is provided in this implementation as an example o
 <td>defn</td>
 <td>Definition URL</td>
 <td>No (uses default if not provided)</td>
-<td>https://raw.githubusercontent.com/indeedeng/proctor-demo/master/proctor-example.json</td>
+<td><a href="https://raw.githubusercontent.com/indeedeng/proctor-demo/master/src/main/webapp/defn/example.json">/defn/example.json</a></td>
 </tr>
 </table>
 

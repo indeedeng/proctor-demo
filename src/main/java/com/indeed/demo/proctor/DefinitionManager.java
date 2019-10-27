@@ -24,14 +24,21 @@ public class DefinitionManager {
     private static final Logger logger = Logger.getLogger(DefinitionManager.class);
 
     private static final String DEFAULT_SPEC = "/com/indeed/demo/ProctorGroups.json";
-    public static final String DEFAULT_DEFINITION = "http://opensource.indeedeng.io/proctor/demo.json";
 
+    private boolean cacheDisabled;
     private Map<String, Proctor> proctorCache = Maps.newHashMap();
     private Random random = new Random();
 
     public DefinitionManager() {
+    }
+
+    private void disableHttpCache(final String definitionUrl) {
+        if (cacheDisabled) {
+            return;
+        }
+        cacheDisabled = true;
         try {
-            final URL u = new URL(DEFAULT_DEFINITION);
+            final URL u = new URL(definitionUrl);
             final URLConnection uc = u.openConnection();
             uc.setDefaultUseCaches(false);
             System.out.println("Set default use of caches to " + uc.getDefaultUseCaches());
@@ -47,6 +54,7 @@ public class DefinitionManager {
             System.out.println("reusing cached " + definitionUrl);
             return proctor;
         }
+        disableHttpCache(definitionUrl);
         try {
             HttpURLConnection.setFollowRedirects(true); // for demo purposes, allow Java to follow redirects
             ProctorSpecification spec = ProctorUtils.readSpecification(DefinitionManager.class.getResourceAsStream(DEFAULT_SPEC));

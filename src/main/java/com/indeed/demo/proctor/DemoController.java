@@ -42,6 +42,7 @@ public class DemoController {
     private static final String TEST_DEFINITION_URL_PARAM = "defn";
     private static final String USER_AGENT_URL_PARAM = "agent";
     private static final String USER_ID_PARAM = "uid";
+    private static final String DEFAULT_DEFINITION = "/defn/example.json";
 
     @Autowired
     protected DefinitionManager definitionManager;
@@ -87,18 +88,24 @@ public class DemoController {
         }
         final String definitionUrl;
         if (!Strings.isNullOrEmpty(testDefnUrlParam)) {
-            definitionUrl = testDefnUrlParam;
+            if (!testDefnUrlParam.startsWith("/")) {
+                definitionUrl = testDefnUrlParam;
+            } else {
+                definitionUrl = request.getScheme() + "://" + request.getServerName() + ":" +
+                    request.getServerPort() + request.getContextPath() + testDefnUrlParam;
+            }
             response.addCookie(createCookie(TEST_DEFINITION_URL_COOKIE, definitionUrl, Integer.MAX_VALUE));
         } else if (!Strings.isNullOrEmpty(testDefnUrlCookie)) {
             definitionUrl = testDefnUrlCookie;
         } else {
-            definitionUrl = DefinitionManager.DEFAULT_DEFINITION;
+            definitionUrl = request.getScheme() + "://" + request.getServerName() + ":" +
+                request.getServerPort() + request.getContextPath() + DEFAULT_DEFINITION;
         }
         final UserAgent userAgent = UserAgent.parseUserAgentStringSafely(userAgentHeader);
         final ProctorGroups groups = getProctorGroups(request, response, userId, definitionUrl, userAgent);
         return new ModelAndView("demo", ImmutableMap.of(
                 "definitionUrl", definitionUrl,
-                "defaultDefinition", definitionUrl.equals(DefinitionManager.DEFAULT_DEFINITION),
+                "defaultDefinition", definitionUrl.endsWith(DEFAULT_DEFINITION),
                 "userId", userId,
                 "groups", groups,
                 "groupsJson", groupsToJson(groups)));
@@ -114,9 +121,15 @@ public class DemoController {
             @Nullable @RequestParam(required = false, value = TEST_DEFINITION_URL_PARAM) String testDefnUrlParam) {
         final String definitionUrl;
         if (!Strings.isNullOrEmpty(testDefnUrlParam)) {
-            definitionUrl = testDefnUrlParam;
+            if (!testDefnUrlParam.startsWith("/")) {
+                definitionUrl = testDefnUrlParam;
+            } else {
+                definitionUrl = request.getScheme() + "://" + request.getServerName() + ":" +
+                    request.getServerPort() + request.getContextPath() + testDefnUrlParam;
+            }
         } else {
-            definitionUrl = DefinitionManager.DEFAULT_DEFINITION;
+            definitionUrl = request.getScheme() + "://" + request.getServerName() + ":" +
+                request.getServerPort() + request.getContextPath() + DEFAULT_DEFINITION;
         }
         final UserAgent userAgent = UserAgent.parseUserAgentStringSafely(userAgentParam);
         final ProctorGroups groups = getProctorGroups(request, response, userId, definitionUrl, userAgent);
@@ -144,15 +157,22 @@ public class DemoController {
     }
 
     @RequestMapping(value = "/change-definition", method = { RequestMethod.GET, RequestMethod.POST })
-    public String changeDefinition(@Nonnull final HttpServletResponse response,
+    public String changeDefinition(@Nonnull final HttpServletRequest request,
+            @Nonnull final HttpServletResponse response,
             @Nullable @CookieValue(required = false, value = TEST_DEFINITION_URL_COOKIE) String testDefnUrlCookie,
             @Nullable @RequestParam(required = false, value = TEST_DEFINITION_URL_PARAM) String testDefnUrlParam) {
         final String definitionUrl;
         if (!Strings.isNullOrEmpty(testDefnUrlParam)) {
-            definitionUrl = testDefnUrlParam;
+            if (!testDefnUrlParam.startsWith("/")) {
+                definitionUrl = testDefnUrlParam;
+            } else {
+                definitionUrl = request.getScheme() + "://" + request.getServerName() + ":" +
+                    request.getServerPort() + request.getContextPath() + testDefnUrlParam;
+            }
             response.addCookie(createCookie(TEST_DEFINITION_URL_COOKIE, definitionUrl, Integer.MAX_VALUE));
         } else {
-            definitionUrl = DefinitionManager.DEFAULT_DEFINITION;
+            definitionUrl = request.getScheme() + "://" + request.getServerName() + ":" +
+                request.getServerPort() + request.getContextPath() + DEFAULT_DEFINITION;
             if (testDefnUrlCookie != null) {
                 // clear cookie
                 response.addCookie(createCookie(TEST_DEFINITION_URL_COOKIE, "", -1));
@@ -168,7 +188,13 @@ public class DemoController {
                 @Nullable @CookieValue(required = false, value = USER_ID_COOKIE) String userId,
                 @Nullable @RequestHeader(required = false, value = USER_AGENT_HEADER) String userAgentHeader,
                 @Nullable @CookieValue(required = false, value = TEST_DEFINITION_URL_COOKIE) String testDefnUrlCookie) {
-        final String definitionUrl = testDefnUrlCookie != null && !"".equals(testDefnUrlCookie) ? testDefnUrlCookie : DefinitionManager.DEFAULT_DEFINITION;
+        final String definitionUrl;
+        if (testDefnUrlCookie != null && !"".equals(testDefnUrlCookie)) {
+            definitionUrl = testDefnUrlCookie;
+        } else {
+            definitionUrl = request.getScheme() + "://" + request.getServerName() + ":" +
+                request.getServerPort() + request.getContextPath() + DEFAULT_DEFINITION;
+        }
         definitionManager.load(definitionUrl, true);
         return handle(request, response, userId, userAgentHeader, testDefnUrlCookie, null);
     }

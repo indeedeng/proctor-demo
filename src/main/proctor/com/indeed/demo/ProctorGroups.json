@@ -11,7 +11,11 @@
             },
             "fallbackValue": -1,
             "payload" : {
-                "type" : "stringValue"
+                "type" : "map",
+                "schema" : {
+                    "bgcolor": "stringValue",
+                    "bucketNameFontSizePercentage": "longValue"
+                }
             }
         }
       },

@@ -17,8 +17,11 @@
         .btn { margin-top: 4px; }
         #defn-rw { display: none }
         #defn { width: 420px; height: 21px; line-height: 1.5; font-size: 90%; font-family: Monaco,Menlo,Consolas,"Courier New",monospace; }
-<c:if test="${not empty groups.bgcolortstPayload}">
-    html,body { background-color: ${groups.bgcolortstPayload}; color: #ffffff; }
+<c:if test="${not empty groups.bgcolortstPayload and not empty groups.bgcolortstPayload.bgcolor}">
+    html,body { background-color: ${groups.bgcolortstPayload.bgcolor}; color: #ffffff; }
+</c:if>
+<c:if test="${not empty groups.bgcolortstPayload and groups.bgcolortstPayload.bucketNameFontSizePercentage gt 0}">
+    .bucket-name { font-size: ${groups.bgcolortstPayload.bucketNameFontSizePercentage}% }
 </c:if>
     </style>
 </head>
@@ -50,9 +53,12 @@
             <input type="cancel" class="btn btn-default btn-xs" value="Cancel" onclick="return toggleEditDefinition()">
         </form>
         <p>Your user ID is: <code>${userId}</code> <a class="btn btn-default btn-sm" href="/reset#details"><span class="glyphicon glyphicon-refresh"></span> Reset</a></p>
-        <p>Your background color test group is: <code>${groups.bgcolortst}</code></p>
-<c:if test="${not empty groups.bgcolortstPayload}">
-        <p>The test group background color is: <code>${groups.bgcolortstPayload}</code></p>
+        <p>Your background color test group is: <code class="bucket-name">${groups.bgcolortst}</code></p>
+<c:if test="${not empty groups.bgcolortstPayload and not empty groups.bgcolortstPayload.bgcolor}">
+        <p>The test group background color is: <code>${groups.bgcolortstPayload.bgcolor}</code></p>
+</c:if>
+<c:if test="${not empty groups.bgcolortstPayload and groups.bgcolortstPayload.bucketNameFontSizePercentage gt 0}">
+        <p>The test group bucket name font size is: <code>${groups.bgcolortstPayload.bucketNameFontSizePercentage}%</code></p>
 </c:if>
         <p id="allocations"></p>
         <p><button type="button" class="btn btn-default btn-xs" id="hideDetails" onclick="toggleDetails()">
