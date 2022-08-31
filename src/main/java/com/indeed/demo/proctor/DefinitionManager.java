@@ -14,14 +14,14 @@ import com.indeed.proctor.common.Proctor;
 import com.indeed.proctor.common.ProctorSpecification;
 import com.indeed.proctor.common.ProctorUtils;
 import com.indeed.proctor.common.UrlProctorLoader;
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DefinitionManager {
-    private static final Logger logger = Logger.getLogger(DefinitionManager.class);
+    private static final Logger logger = LogManager.getLogger(DefinitionManager.class);
 
     private static final String DEFAULT_SPEC = "/com/indeed/demo/ProctorGroups.json";
 
