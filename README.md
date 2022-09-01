@@ -8,21 +8,21 @@ For more information, see the [Proctor documentation](http://indeedeng.github.io
 
 ## Demo Online
 
-The demo is running on heroku: [http://indeedeng-hello-proctor.herokuapp.com](http://indeedeng-hello-proctor.herokuapp.com). It loads its [test definitions](http://indeedeng.github.io/proctor/docs/terminology/#toc_4) from JSON files that can be at any URL. The examples below are self-hosted within the demo app itself. A URL parameter allows you to change the definition file.
+The demo is (usually) running at [proctordemo.site](https://proctordemo.site). It loads its [test definitions](http://indeedeng.github.io/proctor/docs/terminology/#toc_4) from JSON files that can be at any URL. The examples below are self-hosted within the demo app itself. A URL parameter allows you to change the definition file.
 
 ### Things to Try
 
-1. Testing two colors at 25% and 25%: [link](http://indeedeng-hello-proctor.herokuapp.com/?defn=%2Fdefn%2Fexample.json).  Click "Show Details" and "Reset" to change your user ID and (possibly) be put in a different test bucket.
+1. Testing two colors at 25% and 25%: [link](https://proctordemo.site/?defn=%2Fdefn%2Fexample.json).  Click "Show Details" and "Reset" to change your user ID and (possibly) be put in a different test bucket.
 
-1. Testing the same two colors at 50% and 50%: [link](http://indeedeng-hello-proctor.herokuapp.com/?defn=%2Fdefn%2Fexample2.json)
+1. Testing the same two colors at 50% and 50%: [link](https://proctordemo.site/?defn=%2Fdefn%2Fexample2.json)
 
-1. Going to 100% for one color: [link](http://indeedeng-hello-proctor.herokuapp.com/?defn=%2Fdefn%2Fexample3.json)
+1. Going to 100% for one color: [link](https://proctordemo.site/?defn=%2Fdefn%2Fexample3.json)
 
-1. Using `prforceGroups` to see a different test group, regardless of allocations: [link](http://indeedeng-hello-proctor.herokuapp.com/?prforceGroups=bgcolortst3)
+1. Using `prforceGroups` to see a different test group, regardless of allocations: [link](https://proctordemo.site/?prforceGroups=bgcolortst3)
 
-1. Reset to discard the forced group in the previous step: [link](http://indeedeng-hello-proctor.herokuapp.com/reset)
+1. Reset to discard the forced group in the previous step: [link](https://proctordemo.site/reset)
 
-1. Basing color on Android vs. iOS user agent instead of random allocation: [link](http://indeedeng-hello-proctor.herokuapp.com/?defn=%2Fdefn%2Fdemo.json). If you're not on Android or iOS you won't see a background color.
+1. Basing color on Android vs. iOS user agent instead of random allocation: [link](https://proctordemo.site/?defn=%2Fdefn%2Fdemo.json). If you're not on Android or iOS you won't see a background color.
 
 #### Web-Based Remote Service API
 
