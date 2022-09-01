@@ -60,6 +60,11 @@ An additional endpoint `/rpc` is provided in this implementation as an example o
 
 1. Go to [http://localhost:8080/](http://localhost:8080/)
 
+To run on a different port locally, use the `--port` option for webapp-runner. For example, to run on port 9999:
+```
+java -jar target/dependency/webapp-runner.jar --port 9999 target/*.war
+```
+
 ## The Source
 
 ### [ProctorGroups.json](https://github.com/indeedeng/proctor-demo/blob/master/src/main/proctor/com/indeed/demo/ProctorGroups.json)
