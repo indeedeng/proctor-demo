@@ -37,6 +37,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class DemoController {
 
     private static final String USER_ID_COOKIE = "UserId";
+    private static final String HOST_HEADER = "Host";
+    private static final String SCHEME_HEADER = "X-Forwarded-Proto";
     private static final String USER_AGENT_HEADER = "User-Agent";
     private static final String TEST_DEFINITION_URL_COOKIE = "TestDefn";
     private static final String TEST_DEFINITION_URL_PARAM = "defn";
@@ -79,6 +81,8 @@ public class DemoController {
     public ModelAndView handle(@Nonnull final HttpServletRequest request,
             @Nonnull final HttpServletResponse response,
             @Nullable @CookieValue(required = false, value = USER_ID_COOKIE) String userId,
+            @Nullable @RequestHeader(required = false, value = HOST_HEADER) String host,
+            @Nullable @RequestHeader(required = false, value = SCHEME_HEADER) String scheme,
             @Nullable @RequestHeader(required = false, value = USER_AGENT_HEADER) String userAgentHeader,
             @Nullable @CookieValue(required = false, value = TEST_DEFINITION_URL_COOKIE) String testDefnUrlCookie,
             @Nullable @RequestParam(required = false, value = TEST_DEFINITION_URL_PARAM) String testDefnUrlParam) {
@@ -86,20 +90,24 @@ public class DemoController {
             userId = UUID.randomUUID().toString();
             response.addCookie(new Cookie(USER_ID_COOKIE, userId));
         }
+        if (host == null) {
+            host = request.getServerName() + ":" +  request.getServerPort();
+        }
+        if (scheme == null) {
+            scheme = request.getScheme();
+        }
         final String definitionUrl;
         if (!Strings.isNullOrEmpty(testDefnUrlParam)) {
             if (!testDefnUrlParam.startsWith("/")) {
                 definitionUrl = testDefnUrlParam;
             } else {
-                definitionUrl = request.getScheme() + "://" + request.getServerName() + ":" +
-                    request.getServerPort() + request.getContextPath() + testDefnUrlParam;
+                definitionUrl = scheme + "://" + host + request.getContextPath() + testDefnUrlParam;
             }
             response.addCookie(createCookie(TEST_DEFINITION_URL_COOKIE, definitionUrl, Integer.MAX_VALUE));
         } else if (!Strings.isNullOrEmpty(testDefnUrlCookie)) {
             definitionUrl = testDefnUrlCookie;
         } else {
-            definitionUrl = request.getScheme() + "://" + request.getServerName() + ":" +
-                request.getServerPort() + request.getContextPath() + DEFAULT_DEFINITION;
+            definitionUrl = scheme + "://" + host + request.getContextPath() + DEFAULT_DEFINITION;
         }
         final UserAgent userAgent = UserAgent.parseUserAgentStringSafely(userAgentHeader);
         final ProctorGroups groups = getProctorGroups(request, response, userId, definitionUrl, userAgent);
@@ -186,6 +194,8 @@ public class DemoController {
     public ModelAndView reload(@Nonnull final HttpServletRequest request,
                 @Nonnull final HttpServletResponse response,
                 @Nullable @CookieValue(required = false, value = USER_ID_COOKIE) String userId,
+                @Nullable @RequestHeader(required = false, value = HOST_HEADER) String host,
+                @Nullable @RequestHeader(required = false, value = SCHEME_HEADER) String scheme,
                 @Nullable @RequestHeader(required = false, value = USER_AGENT_HEADER) String userAgentHeader,
                 @Nullable @CookieValue(required = false, value = TEST_DEFINITION_URL_COOKIE) String testDefnUrlCookie) {
         final String definitionUrl;
@@ -196,7 +206,7 @@ public class DemoController {
                 request.getServerPort() + request.getContextPath() + DEFAULT_DEFINITION;
         }
         definitionManager.load(definitionUrl, true);
-        return handle(request, response, userId, userAgentHeader, testDefnUrlCookie, null);
+        return handle(request, response, userId, host, scheme, userAgentHeader, testDefnUrlCookie, null);
     }
 
     private Cookie createCookie(String name, String value, int maxAge) {
